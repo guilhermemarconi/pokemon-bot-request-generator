@@ -19,6 +19,16 @@ const Footer = () => {
         <span aria-hidden="true">|</span>
         <a
           className="underline"
+          href="https://pokeapi.co/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="PokéAPI"
+        >
+          PokéAPI
+        </a>
+        <span aria-hidden="true">|</span>
+        <a
+          className="underline"
           href="https://bmc.link/marconi"
           target="_blank"
           rel="noopener noreferrer"
