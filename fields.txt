@@ -1,0 +1,40 @@
+- pokemon*
+- gender
+- bot character*
+---- .
+---- $
+---- *
+- item
+- ability
+- ball
+- tera type
+- level
+- shiny
+- nature
+- moves
+- ivs
+- evs
+- ot
+- ot gender
+- tid
+- sid
+- language
+- met day
+- met month
+- met year
+- met level
+- ribbons
+---- check https://gist.github.com/guilhermemarconi/1004285dadb0c7394e17139eda27544b
+---- check https://www.serebii.net/scarletviolet/marks.shtml for sprites
+- .Met_Location=XX
+---- check https://gist.github.com/guilhermemarconi/1004285dadb0c7394e17139eda27544b
+- IsEgg: Yes/No
+---- if true:
+-------- Egg (species)
+-------- can't set ribbons
+-------- level will be 1
+-------- egg location (should be 30023 for picnic?)
+-------- egg day
+-------- egg month
+-------- egg year
+---- else: ignore it
