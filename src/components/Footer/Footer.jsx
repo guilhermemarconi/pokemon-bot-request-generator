@@ -1,11 +1,12 @@
 const Footer = () => {
   return (
     <footer
-      className="px-5 py-8 bg-slate-200"
+      className="px-5 py-8 text-center bg-slate-200"
     >
-      <p className="mb-2 text-xs text-center">
+      <p className="mb-2 text-xs">
         Made with love <strike className="text-slate-500">and a PokéBall</strike> ❤️
       </p>
+
       <p className="flex justify-center gap-2 font-mono text-xs">
         <a
           className="underline"
@@ -36,6 +37,10 @@ const Footer = () => {
         >
           Buy me a coffee
         </a>
+      </p>
+
+      <p className="mt-4 text-xs">
+        <small>Pokémon and Pokémon character names are trademarks of Nintendo.</small>
       </p>
     </footer>
   )
