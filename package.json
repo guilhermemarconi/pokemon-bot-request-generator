@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && jampack ./dist",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "react-query": "^3.39.3"
   },
   "devDependencies": {
+    "@divriots/jampack": "^0.13.0",
     "@preact/preset-vite": "^2.5.0",
     "autoprefixer": "^10.4.14",
     "cssnano": "^6.0.1",
