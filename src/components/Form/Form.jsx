@@ -1,5 +1,5 @@
 import { signal } from '@preact/signals'
-import { useCallback } from 'preact/hooks'
+import { useCallback, useMemo } from 'preact/hooks'
 import { Form, Controller, useForm } from 'react-hook-form'
 import { useQuery } from 'react-query'
 
@@ -51,6 +51,16 @@ const CustomForm = ({
     },
     { enabled: !!selectedSpecies.value }
   )
+
+  const abilities = useMemo(() => {
+    if (!pokemonData) return []
+
+    return pokemonData.abilities.filter(({ ability: { name } }, index) =>
+      pokemonData.abilities.findIndex(
+        (item) => item.ability.name === name
+      ) === index
+    )
+  }, [pokemonData?.name])
 
   const onSubmit = useCallback((data) => {
     request.value = formatRequestText(data)
@@ -129,8 +139,8 @@ const CustomForm = ({
               disabled={!pokemonData}
               {...field}
             >
-              {pokemonData ? (
-                pokemonData.abilities.map(({ ability: { name }, is_hidden }) => {
+              {abilities.length ? (
+                abilities.map(({ ability: { name }, is_hidden }) => {
                   const formatedName = capitalizeAndRemoveDashes(name)
                   return (
                     <option value={formatedName}>{formatedName} {is_hidden ? '(HA)' : ''}</option>
