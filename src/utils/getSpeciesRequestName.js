@@ -83,6 +83,14 @@ const speciesMap = {
   'Chien Pao': 'Chien-Pao',
   'Ting Lu': 'Ting-Lu',
   'Chi Yu': 'Chi-Yu',
+  'Pikachu Original Cap': 'Pikachu-Original',
+  'Pikachu Hoenn Cap': 'Pikachu-Hoenn',
+  'Pikachu Kalos Cap': 'Pikachu-Kalos',
+  'Pikachu World Cap': 'Pikachu-World',
+  'Pikachu Sinnoh Cap': 'Pikachu-Sinnoh',
+  'Pikachu Unova Cap': 'Pikachu-Unova',
+  'Pikachu Alola Cap': 'Pikachu-Alola',
+  'Pikachu Partner Cap': 'Pikachu-Partner',
 }
 
 const getSpeciesRequestName = (species) => speciesMap[species] || species
