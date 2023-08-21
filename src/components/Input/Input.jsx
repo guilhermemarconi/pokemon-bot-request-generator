@@ -31,7 +31,7 @@ const Input = forwardRef(({
 
   const Element = getElementByType(type)
   const elementProps = {
-    className: `${styleClasses} ${isGoupItem ? '' : 'md:w-60'}`,
+    className: styleClasses,
     ref,
     id,
     onChange: (event) => {
