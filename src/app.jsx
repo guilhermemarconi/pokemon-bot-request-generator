@@ -14,6 +14,7 @@ const selectedSpecies = signal(null)
 const speciesData = signal(null)
 const isShiny = signal(false)
 const request = signal('')
+const evPoints = signal(510)
 
 export function App() {
   return (
@@ -26,8 +27,10 @@ export function App() {
 
           {/* <FormTypeSelect formType={formType} /> */}
 
-          <section className="md:flex md:justify-between md:gap-4 lg:gap-5">
-            <div className="lg:grow">
+          <section
+            className="md:flex md:justify-between md:gap-6 lg:gap-8 md:pb-8"
+          >
+            <div className="flex-1 lg:grow">
               <QueryClientProvider client={queryClient}>
                 <Form
                   formType={formType}
@@ -35,11 +38,12 @@ export function App() {
                   selectedSpecies={selectedSpecies}
                   speciesData={speciesData}
                   isShiny={isShiny}
+                  evPoints={evPoints}
                 />
               </QueryClientProvider>
             </div>
 
-            <div className="pb-5">
+            <div className="flex-1 pb-5">
               <PokemonImage
                 pokemonName={speciesData.value?.name}
                 isShiny={isShiny.value}

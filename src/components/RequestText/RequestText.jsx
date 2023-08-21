@@ -21,7 +21,7 @@ const RequestText = ({ text }) => {
   return (
     <div className="sticky top-0">
       <pre
-        className="request-text p-3 bg-slate-100 rounded-t-xl"
+        className="request-text p-3 whitespace-pre-wrap bg-slate-100 rounded-t-xl"
       >
         {text}
       </pre>
