@@ -4,6 +4,7 @@ import { Form, Controller, useForm } from 'react-hook-form'
 import { useQuery } from 'react-query'
 
 import Input from '../Input'
+import InputGroup from '../InputGroup'
 import Button from '../Button'
 import ToggleSwitch from '../ToggleSwitch'
 // import CompleteFormFields from '../CompleteFormFields'
@@ -15,6 +16,8 @@ import slugify from '../../utils/slugify'
 
 import { getAllPokemon, getPokemonData } from '../../services/pokemon'
 
+const MAX_EV_POINTS_TOTAL = 510
+const MAX_EV_POINTS_PER_ATTRUBUTE = 252
 const moves = signal([])
 
 const CustomForm = ({
@@ -23,14 +26,20 @@ const CustomForm = ({
   selectedSpecies,
   speciesData,
   isShiny,
+  evPoints,
 }) => {
-  const { control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
       botCharacter: '.',
-      // item: 'Shell Bell',
       ball: 'Poké Ball',
       teraType: 'Normal',
       nature: 'Adamant',
+      ['iv-hp']: 31,
+      ['iv-atk']: 31,
+      ['iv-def']: 31,
+      ['iv-spe']: 31,
+      ['iv-sdef']: 31,
+      ['iv-satk']: 31,
     }
   })
 
@@ -68,7 +77,38 @@ const CustomForm = ({
     request.value = formatRequestText(data)
   }, [])
 
-  // console.error(errors)
+  const onChangeEv = (event) => {
+    const formValues = getValues()
+    const evValues = (
+      +(formValues['ev-hp'] || 0) +
+      +(formValues['ev-atk'] || 0) +
+      +(formValues['ev-def'] || 0) +
+      +(formValues['ev-spe'] || 0) +
+      +(formValues['ev-sdef'] || 0) +
+      +(formValues['ev-satk'] || 0)
+    )
+
+    if (evValues > MAX_EV_POINTS_TOTAL) {
+      setValue(event.target.name, evPoints.value)
+      evPoints.value = 0
+      return
+    }
+
+    evPoints.value = MAX_EV_POINTS_TOTAL - evValues
+  }
+
+  const getMaxEvAttr = useCallback((field) => {
+    const value = +field.value || 0
+
+    if (!value) return Math.min(
+      Math.max(evPoints.value, value), MAX_EV_POINTS_PER_ATTRUBUTE
+    )
+
+    if (evPoints.value < MAX_EV_POINTS_PER_ATTRUBUTE)
+      return evPoints.value + value
+
+    return MAX_EV_POINTS_PER_ATTRUBUTE
+  })
 
   return (
     <Form control={control} onSubmit={handleSubmit(onSubmit)}>
@@ -166,7 +206,9 @@ const CustomForm = ({
                 abilities.map(({ ability: { name }, is_hidden }) => {
                   const formatedName = capitalizeAndRemoveDashes(name)
                   return (
-                    <option value={formatedName}>{formatedName} {is_hidden ? '(HA)' : ''}</option>
+                    <option value={formatedName}>
+                      {formatedName} {is_hidden ? '(HA)' : ''}
+                    </option>
                   )
                 })
               ) : (
@@ -291,6 +333,273 @@ const CustomForm = ({
           )
         }
       />
+
+      <InputGroup.Root>
+        <InputGroup.Label>IVs</InputGroup.Label>
+
+        <InputGroup.Group>
+          <Controller
+            control={control}
+            name="iv-hp"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={31}
+                  step={1}
+                  id="iv-hp"
+                  autoComplete="off"
+                  label="HP"
+                  isGoupItem
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="iv-atk"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={31}
+                  step={1}
+                  id="iv-atk"
+                  autoComplete="off"
+                  label="Attack"
+                  isGoupItem
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="iv-def"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={31}
+                  step={1}
+                  id="iv-def"
+                  autoComplete="off"
+                  label="Defense"
+                  isGoupItem
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="iv-spe"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={31}
+                  step={1}
+                  id="iv-spe"
+                  autoComplete="off"
+                  label="Speed"
+                  isGoupItem
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="iv-sdef"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={31}
+                  step={1}
+                  id="iv-sdef"
+                  autoComplete="off"
+                  label="Special Defense"
+                  isGoupItem
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="iv-satk"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={31}
+                  step={1}
+                  id="iv-satk"
+                  autoComplete="off"
+                  label="Special Attack"
+                  isGoupItem
+                />
+              )
+            }
+          />
+        </InputGroup.Group>
+      </InputGroup.Root>
+
+      <InputGroup.Root>
+        <InputGroup.Label>
+          EVs{' '}
+          <span>({evPoints.value} points available)</span>
+        </InputGroup.Label>
+
+        <InputGroup.Group>
+          <Controller
+            control={control}
+            name="ev-hp"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={getMaxEvAttr(field)}
+                  step={1}
+                  disabled={!evPoints.value && !field.value}
+                  id="ev-hp"
+                  autoComplete="off"
+                  label="HP"
+                  isGoupItem
+                  customOnChange={useCallback(onChangeEv)}
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="ev-atk"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={getMaxEvAttr(field)}
+                  step={1}
+                  disabled={!evPoints.value && !field.value}
+                  id="ev-atk"
+                  autoComplete="off"
+                  label="Attack"
+                  isGoupItem
+                  customOnChange={useCallback(onChangeEv)}
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="ev-def"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={getMaxEvAttr(field)}
+                  step={1}
+                  disabled={!evPoints.value && !field.value}
+                  id="ev-def"
+                  autoComplete="off"
+                  label="Defense"
+                  isGoupItem
+                  customOnChange={useCallback(onChangeEv)}
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="ev-spe"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={getMaxEvAttr(field)}
+                  step={1}
+                  disabled={!evPoints.value && !field.value}
+                  id="ev-spe"
+                  autoComplete="off"
+                  label="Speed"
+                  isGoupItem
+                  customOnChange={useCallback(onChangeEv)}
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="ev-sdef"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={getMaxEvAttr(field)}
+                  step={1}
+                  disabled={!evPoints.value && !field.value}
+                  id="ev-sdef"
+                  autoComplete="off"
+                  label="Special Defense"
+                  isGoupItem
+                  customOnChange={useCallback(onChangeEv)}
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="ev-satk"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={getMaxEvAttr(field)}
+                  step={1}
+                  disabled={!evPoints.value && !field.value}
+                  id="ev-satk"
+                  autoComplete="off"
+                  label="Special Attack"
+                  isGoupItem
+                  customOnChange={useCallback(onChangeEv)}
+                />
+              )
+            }
+          />
+        </InputGroup.Group>
+      </InputGroup.Root>
 
       <Controller
         control={control}

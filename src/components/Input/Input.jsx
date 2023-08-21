@@ -1,4 +1,4 @@
-import { forwardRef } from 'preact/compat'
+import { Fragment, forwardRef } from 'preact/compat'
 
 import capitalizeAndRemoveDashes from '../../utils/capitalizeAndRemoveDashes'
 
@@ -22,13 +22,16 @@ const Input = forwardRef(({
   datalist,
   listData,
   info,
+  isGoupItem = false,
   ...props
 }, ref) => {
   if (['checkbox', 'radio', 'range'].includes(type)) return null
 
+  const styleClasses = 'block w-full h-10 border rounded-md mt-1 px-2 py-1 focus:ring text-lg'
+
   const Element = getElementByType(type)
   const elementProps = {
-    className: "block w-full md:w-60 h-10 border rounded-md mt-1 px-2 py-1 focus:ring text-lg",
+    className: `${styleClasses} ${isGoupItem ? '' : 'md:w-60'}`,
     ref,
     id,
     onChange: (event) => {
@@ -46,8 +49,10 @@ const Input = forwardRef(({
   if (type !== 'select') elementProps.type = type
   if (datalist) elementProps.list = datalist
 
+  const InputElement = isGoupItem ? Fragment : 'fieldset'
+
   return (
-    <fieldset className="my-3">
+    <InputElement className={isGoupItem ? null : 'my-3'}>
       {
         (label && id)
           ? (
@@ -84,8 +89,10 @@ const Input = forwardRef(({
           ))}
         </datalist>
       ) : null}
-    </fieldset>
+    </InputElement>
   )
 })
+
+Input.displayName = 'Input'
 
 export default Input
