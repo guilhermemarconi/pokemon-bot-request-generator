@@ -10,6 +10,7 @@ import ToggleSwitch from '../ToggleSwitch'
 
 import formatRequestText from '../../utils/formatRequestText'
 import capitalizeAndRemoveDashes from '../../utils/capitalizeAndRemoveDashes'
+import holdItems from '../../utils/getHoldItems'
 import slugify from '../../utils/slugify'
 
 import { getAllPokemon, getPokemonData } from '../../services/pokemon'
@@ -26,7 +27,7 @@ const CustomForm = ({
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       botCharacter: '.',
-      item: 'Shell Bell',
+      // item: 'Shell Bell',
       ball: 'Poké Ball',
       teraType: 'Normal',
       nature: 'Adamant',
@@ -137,9 +138,11 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
-              label="Item"
+              label="Held Item"
               id="item"
               autoComplete="off"
+              datalist="heldItem"
+              listData={holdItems}
               {...field}
             />
           )

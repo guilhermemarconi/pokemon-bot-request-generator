@@ -1,9 +1,14 @@
 const edgeCases = {
+  // pokemon names
   'jangmo-o': 'Jangmo-O',
   'hakamo-o': 'Hakamo-O',
   'kommo-o': 'Kommo-O',
   'mr-mime-galar': 'Mr. Mime Galar',
   'mr-rime': 'Mr. Rime',
+
+  // items
+  'Heavy-Duty Boots': 'Heavy-Duty Boots',
+  'Never-Melt Ice': 'Never-Melt Ice',
 }
 
 const capitalizeAndRemoveDashes = (str) => {
