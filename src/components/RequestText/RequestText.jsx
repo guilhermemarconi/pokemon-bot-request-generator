@@ -19,7 +19,11 @@ const RequestText = ({ text }) => {
   }, [])
 
   return (
-    <div className="sticky top-0">
+    <div
+      className="sticky top-0"
+      aria-live="polite"
+      aria-label="Your request text is ready. Use the button below to copy it."
+    >
       <pre
         className="request-text p-3 whitespace-pre-wrap bg-slate-100 rounded-t-xl"
       >

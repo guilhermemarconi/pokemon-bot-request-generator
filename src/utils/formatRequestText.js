@@ -19,7 +19,6 @@ const getEVString = (attributes) => {
 }
 
 const formatRequestText = (data) => {
-  console.log(`🚀 ~ file: formatRequestText.js:4 ~ formatRequestText ~ data:`, data)
   const lines = [
     `${data.botCharacter}trade ${getSpeciesRequestName(data.species)}`,
   ]
