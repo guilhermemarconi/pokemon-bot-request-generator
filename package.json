@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@preact/signals": "^1.1.3",
     "@vercel/analytics": "^1.0.1",
     "clipboard": "^2.0.11",
