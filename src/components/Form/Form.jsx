@@ -12,6 +12,7 @@ import ToggleSwitch from '../ToggleSwitch'
 import formatRequestText from '../../utils/formatRequestText'
 import capitalizeAndRemoveDashes from '../../utils/capitalizeAndRemoveDashes'
 import holdItems from '../../utils/getHoldItems'
+import getEVSumValues from '../../utils/getEVSumValues'
 import slugify from '../../utils/slugify'
 
 import { getAllPokemon, getPokemonData } from '../../services/pokemon'
@@ -78,19 +79,31 @@ const CustomForm = ({
   }, [])
 
   const onChangeEv = (event) => {
+    const fieldName = event.target.name
+    const fieldValue = event.target.value
     const formValues = getValues()
-    const evValues = (
-      +(formValues['ev-hp'] || 0) +
-      +(formValues['ev-atk'] || 0) +
-      +(formValues['ev-def'] || 0) +
-      +(formValues['ev-spe'] || 0) +
-      +(formValues['ev-sdef'] || 0) +
-      +(formValues['ev-satk'] || 0)
-    )
+    const evValues = getEVSumValues(formValues)
 
-    if (evValues > MAX_EV_POINTS_TOTAL) {
-      setValue(event.target.name, evPoints.value)
-      evPoints.value = 0
+    if (
+      fieldValue > MAX_EV_POINTS_PER_ATTRUBUTE || fieldValue > evPoints.value
+    ) {
+      if (fieldValue > evPoints.value) {
+        setValue(
+          fieldName, Math.min(evPoints.value, MAX_EV_POINTS_PER_ATTRUBUTE)
+        )
+        evPoints.value =
+          MAX_EV_POINTS_TOTAL - getEVSumValues(getValues())
+        return
+      }
+
+      evPoints.value = MAX_EV_POINTS_TOTAL - (evValues - formValues[fieldName])
+
+      setValue(fieldName, Math.min(fieldValue, MAX_EV_POINTS_PER_ATTRUBUTE))
+
+      evPoints.value = evPoints.value - Math.min(
+        fieldValue,
+        MAX_EV_POINTS_PER_ATTRUBUTE
+      )
       return
     }
 
@@ -103,6 +116,8 @@ const CustomForm = ({
     if (!value) return Math.min(
       Math.max(evPoints.value, value), MAX_EV_POINTS_PER_ATTRUBUTE
     )
+
+    if (value > MAX_EV_POINTS_PER_ATTRUBUTE) return MAX_EV_POINTS_PER_ATTRUBUTE
 
     if (evPoints.value < MAX_EV_POINTS_PER_ATTRUBUTE)
       return evPoints.value + value
@@ -134,7 +149,7 @@ const CustomForm = ({
 
       <Controller
         control={control}
-        rules={{ required: true }}
+        rules={{ required: 'You need to specify a Pokémon.' }}
         name="species"
         render={
           ({ field }) => (
@@ -483,7 +498,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="HP"
                   isGoupItem
-                  customOnChange={useCallback(onChangeEv)}
+                  customOnBlur={useCallback(onChangeEv)}
                 />
               )
             }
@@ -505,7 +520,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Attack"
                   isGoupItem
-                  customOnChange={useCallback(onChangeEv)}
+                  customOnBlur={useCallback(onChangeEv)}
                 />
               )
             }
@@ -527,7 +542,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Defense"
                   isGoupItem
-                  customOnChange={useCallback(onChangeEv)}
+                  customOnBlur={useCallback(onChangeEv)}
                 />
               )
             }
@@ -549,7 +564,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Speed"
                   isGoupItem
-                  customOnChange={useCallback(onChangeEv)}
+                  customOnBlur={useCallback(onChangeEv)}
                 />
               )
             }
@@ -571,7 +586,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Special Defense"
                   isGoupItem
-                  customOnChange={useCallback(onChangeEv)}
+                  customOnBlur={useCallback(onChangeEv)}
                 />
               )
             }
@@ -593,7 +608,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Special Attack"
                   isGoupItem
-                  customOnChange={useCallback(onChangeEv)}
+                  customOnBlur={useCallback(onChangeEv)}
                 />
               )
             }
