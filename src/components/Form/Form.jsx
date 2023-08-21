@@ -44,6 +44,8 @@ const CustomForm = ({
     }
   })
 
+  const formValues = getValues()
+
   const { data: allPokemonList } = useQuery('allPokemon', getAllPokemon)
   const { data: pokemonData } = useQuery(
     ['pokemon', selectedSpecies.value],
@@ -78,7 +80,13 @@ const CustomForm = ({
     request.value = formatRequestText(data)
   }, [])
 
-  const onChangeEv = (event) => {
+  const ensureIvIsValid = useCallback((event) => {
+    const { name, value } = event.target
+    if (!value || +value < 0) setValue(name, 0)
+    if (+value > 31) setValue(name, 31)
+  }, [])
+
+  const onChangeEv = useCallback((event) => {
     const fieldName = event.target.name
     const fieldValue = event.target.value
     const formValues = getValues()
@@ -108,7 +116,15 @@ const CustomForm = ({
     }
 
     evPoints.value = MAX_EV_POINTS_TOTAL - evValues
-  }
+  }, [
+    evPoints.value,
+    formValues['ev-hp'],
+    formValues['ev-atk'],
+    formValues['ev-def'],
+    formValues['ev-spe'],
+    formValues['ev-sdef'],
+    formValues['ev-satk'],
+  ])
 
   const getMaxEvAttr = useCallback((field) => {
     const value = +field.value || 0
@@ -368,6 +384,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="HP"
                   isGoupItem
+                  customOnBlur={ensureIvIsValid}
                 />
               )
             }
@@ -388,6 +405,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Attack"
                   isGoupItem
+                  customOnBlur={ensureIvIsValid}
                 />
               )
             }
@@ -408,6 +426,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Defense"
                   isGoupItem
+                  customOnBlur={ensureIvIsValid}
                 />
               )
             }
@@ -428,6 +447,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Speed"
                   isGoupItem
+                  customOnBlur={ensureIvIsValid}
                 />
               )
             }
@@ -448,6 +468,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Special Defense"
                   isGoupItem
+                  customOnBlur={ensureIvIsValid}
                 />
               )
             }
@@ -468,6 +489,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Special Attack"
                   isGoupItem
+                  customOnBlur={ensureIvIsValid}
                 />
               )
             }
@@ -498,7 +520,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="HP"
                   isGoupItem
-                  customOnBlur={useCallback(onChangeEv)}
+                  customOnBlur={onChangeEv}
                 />
               )
             }
@@ -520,7 +542,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Attack"
                   isGoupItem
-                  customOnBlur={useCallback(onChangeEv)}
+                  customOnBlur={onChangeEv}
                 />
               )
             }
@@ -542,7 +564,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Defense"
                   isGoupItem
-                  customOnBlur={useCallback(onChangeEv)}
+                  customOnBlur={onChangeEv}
                 />
               )
             }
@@ -564,7 +586,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Speed"
                   isGoupItem
-                  customOnBlur={useCallback(onChangeEv)}
+                  customOnBlur={onChangeEv}
                 />
               )
             }
@@ -586,7 +608,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Special Defense"
                   isGoupItem
-                  customOnBlur={useCallback(onChangeEv)}
+                  customOnBlur={onChangeEv}
                 />
               )
             }
@@ -608,7 +630,7 @@ const CustomForm = ({
                   autoComplete="off"
                   label="Special Attack"
                   isGoupItem
-                  customOnBlur={useCallback(onChangeEv)}
+                  customOnBlur={onChangeEv}
                 />
               )
             }
