@@ -118,11 +118,11 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               type="select"
               label="Bot Character"
               id="botCharacter"
               info="Usually is in the name of the bot. E.g.: ($) Alice"
-              {...field}
             >
               <option value=".">.</option>
               <option value="$">$</option>
@@ -139,6 +139,7 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               label="Pokémon Species"
               id="species"
               autoComplete="off"
@@ -147,7 +148,6 @@ const CustomForm = ({
               customOnBlur={(event) => {
                 selectedSpecies.value = event.target.value
               }}
-              {...field}
             />
           )
         }
@@ -178,12 +178,12 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               label="Held Item"
               id="item"
               autoComplete="off"
               datalist="heldItem"
               listData={holdItems}
-              {...field}
             />
           )
         }
@@ -196,11 +196,11 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               type="select"
               label="Ability"
               id="ability"
               disabled={!pokemonData}
-              {...field}
             >
               {abilities.length ? (
                 abilities.map(({ ability: { name }, is_hidden }) => {
@@ -225,10 +225,10 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               type="select"
               label="Ball"
               id="ball"
-              {...field}
             >
               <option value=""></option>
               <option value="Poké Ball">Poké Ball</option>
@@ -265,10 +265,10 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               type="select"
               label="Tera Type"
               id="teraType"
-              {...field}
             >
               <option value="Normal">Normal</option>
               <option value="Fire">Fire</option>
@@ -299,10 +299,10 @@ const CustomForm = ({
         render={
           ({ field }) => (
             <Input
+              {...field}
               type="select"
               label="Nature"
               id="nature"
-              {...field}
             >
               <option value="Adamant">Adamant</option>
               <option value="Bashful">Bashful</option>
@@ -601,78 +601,91 @@ const CustomForm = ({
         </InputGroup.Group>
       </InputGroup.Root>
 
-      <Controller
-        control={control}
-        name="move1"
-        render={
-          ({ field }) => (
-            <Input
-              label="Moves"
-              id="move1"
-              autoComplete="off"
-              datalist="moves1"
-              listData={moves.value}
-              placeholder={pokemonData ? 'Move 1' : 'Set species'}
-              disabled={!pokemonData}
-              {...field}
-            />
-          )
-        }
-      />
+      <InputGroup.Root>
+        <InputGroup.Label>Moves</InputGroup.Label>
 
-      <Controller
-        control={control}
-        name="move2"
-        render={
-          ({ field }) => (
-            <Input
-              id="move2"
-              autoComplete="off"
-              datalist="moves2"
-              listData={moves.value}
-              placeholder={pokemonData ? 'Move 2' : ''}
-              disabled={!pokemonData}
-              {...field}
-            />
-          )
-        }
-      />
+        <InputGroup.Group>
+          <Controller
+            control={control}
+            name="move1"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  label="Move 1"
+                  id="move1"
+                  autoComplete="off"
+                  datalist="moves1"
+                  listData={moves.value}
+                  placeholder={pokemonData ? 'Move 1' : 'Set species'}
+                  disabled={!pokemonData}
+                  isGoupItem
+                />
+              )
+            }
+          />
 
-      <Controller
-        control={control}
-        name="move3"
-        render={
-          ({ field }) => (
-            <Input
-              id="move3"
-              autoComplete="off"
-              datalist="moves3"
-              listData={moves.value}
-              placeholder={pokemonData ? 'Move 3' : ''}
-              disabled={!pokemonData}
-              {...field}
-            />
-          )
-        }
-      />
+          <Controller
+            control={control}
+            name="move2"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  label="Move 2"
+                  id="move2"
+                  autoComplete="off"
+                  datalist="moves2"
+                  listData={moves.value}
+                  placeholder={pokemonData ? 'Move 2' : ''}
+                  disabled={!pokemonData}
+                  isGoupItem
+                />
+              )
+            }
+          />
 
-      <Controller
-        control={control}
-        name="move4"
-        render={
-          ({ field }) => (
-            <Input
-              id="move4"
-              autoComplete="off"
-              datalist="moves4"
-              listData={moves.value}
-              placeholder={pokemonData ? 'Move 4' : ''}
-              disabled={!pokemonData}
-              {...field}
-            />
-          )
-        }
-      />
+          <Controller
+            control={control}
+            name="move3"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  label="Move 3"
+                  id="move3"
+                  autoComplete="off"
+                  datalist="moves3"
+                  listData={moves.value}
+                  placeholder={pokemonData ? 'Move 3' : ''}
+                  disabled={!pokemonData}
+                  isGoupItem
+                />
+              )
+            }
+          />
+
+          <Controller
+            control={control}
+            name="move4"
+            render={
+              ({ field }) => (
+                <Input
+                  {...field}
+                  label="Move 4"
+                  id="move4"
+                  autoComplete="off"
+                  datalist="moves4"
+                  listData={moves.value}
+                  placeholder={pokemonData ? 'Move 4' : ''}
+                  disabled={!pokemonData}
+                  isGoupItem
+                />
+              )
+            }
+          />
+        </InputGroup.Group>
+      </InputGroup.Root>
 
       {/* {formType.value === 'complete' ? (
         <CompleteFormFields control={control}/>
