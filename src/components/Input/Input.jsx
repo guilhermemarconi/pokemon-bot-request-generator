@@ -41,6 +41,8 @@ const Input = forwardRef(({
     }
   }
 
+  if (['checkbox', 'radio'].includes(type)) return null
+
   if (type !== 'select') elementProps.type = type
   if (datalist) elementProps.list = datalist
 
