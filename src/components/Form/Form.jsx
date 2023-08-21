@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 
 import Input from '../Input'
 import Button from '../Button'
+import ToggleSwitch from '../ToggleSwitch'
 // import CompleteFormFields from '../CompleteFormFields'
 
 import formatRequestText from '../../utils/formatRequestText'
@@ -106,6 +107,25 @@ const CustomForm = ({
                 selectedSpecies.value = event.target.value
               }}
               {...field}
+            />
+          )
+        }
+      />
+
+      <Controller
+        control={control}
+        name="shiny"
+        render={
+          ({ field }) => (
+            <ToggleSwitch
+              {...field}
+              label="Shiny"
+              id="shiny"
+              onClick={() => {
+                const newValue = !isShiny.value
+                setValue('shiny', newValue)
+                isShiny.value = newValue
+              }}
             />
           )
         }
@@ -224,26 +244,6 @@ const CustomForm = ({
               <option value="Poison">Poison</option>
               <option value="Dragon">Dragon</option>
             </Input>
-          )
-        }
-      />
-
-      <Controller
-        control={control}
-        name="shiny"
-        render={
-          ({ field }) => (
-            <Input
-              type="checkbox"
-              label="Shiny"
-              id="shiny"
-              customOnChange={() => {
-                const newValue = !isShiny.value
-                setValue('shiny', newValue)
-                isShiny.value = newValue
-              }}
-              {...field}
-            />
           )
         }
       />
