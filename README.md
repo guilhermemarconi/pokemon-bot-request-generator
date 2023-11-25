@@ -16,14 +16,14 @@ This project is nothing but a form that helps people to generate the text that w
 - [x] Pokémon species
 - [x] Bot starting character
 - [x] Held item
-- [x] Ability ([needs improvement](https://github.com/guilhermemarconi/pokemon-bot-request-generator/issues/7))
+- [x] Ability
 - [x] Ball
 - [x] Tera type
 - [x] Nature
 - [x] Moves
-- [ ] IVs
-- [ ] EVs
-- [ ] Shiny
+- [x] IVs
+- [x] EVs
+- [x] Shiny
 - [ ] Trainer data  
 (OT, OT gender, TID and SID)
 - [ ] Ribbons
